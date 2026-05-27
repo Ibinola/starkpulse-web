@@ -51,6 +51,8 @@ import { SearchModule } from './search/search.module';
 import { ExportModule } from './export/export.module';
 import { AppConfigModule } from './config/config.module';
 import { CrowdfundModule } from './crowdfund/crowdfund.module';
+import { AuditModule } from './audit/audit.module';
+import { AuditLogInterceptor } from './audit/interceptors/audit-log.interceptor';
 
 @Module({
   imports: [
@@ -121,6 +123,7 @@ import { CrowdfundModule } from './crowdfund/crowdfund.module';
     FeatureFlagsModule,
     CrowdfundModule,
     AppConfigModule,
+    AuditModule,
   ],
   controllers: [AppController, TestController, TestExceptionController],
   providers: [
@@ -132,6 +135,10 @@ import { CrowdfundModule } from './crowdfund/crowdfund.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: IdempotencyInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuditLogInterceptor,
     },
   ],
 })
